@@ -1,0 +1,111 @@
+@import './assets/css/variables.scss';
+input{
+  color: $color-grey-300;
+  &::placeholder{
+    color: #babdbf;
+}
+}
+
+.pointer{
+cursor: pointer;
+}
+
+.icon-hover{
+  padding: 3px;
+  &:hover{
+    color: #fff;
+    background-color:$color-purple-500;
+    
+  }
+}
+
+.spin{
+animation: spin 2s linear infinite;
+}
+
+.fs-xs{
+font-size: $font-size-xs;
+
+}
+.fs-s{
+font-size: $font-size-s;
+}
+
+.fs-m{
+font-size: $font-size-m;
+}
+
+.fs-l{
+font-size: $font-size-l;
+}
+
+.fs-xl{
+font-size: $font-size-xl;
+}
+
+.fs-2xl{
+font-size: $font-size-2xl;
+}
+
+.fs-3xl{
+font-size: $font-size-3xl;
+}
+
+.fs-4xl{
+font-size: $font-size-4xl;
+}
+
+.fw-blod{
+font-weight: bold;
+}
+
+//table
+.table {
+width: 100%;
+border-collapse: collapse;
+background-color: #fff;
+}
+.table th {
+padding: 20px;
+ font-weight: normal;
+text-align: left;
+}
+.table td {
+padding: 20px;
+text-align: left;
+border-top: 1px solid $color-grey-200;
+}
+
+.table thead {
+background-color: $color-grey-50;
+}
+
+.table tbody tr:nth-child(even) {
+background-color:  $color-grey-50;
+}
+
+.table tbody tr:hover {
+background-color:  $color-grey-200;
+}
+
+//margin
+.ml-1{
+  margin-left: 0.25rem;
+}
+.ml-2{
+  margin-left: 0.5rem;
+}
+.ml-3{
+  margin-left: 1rem;
+}
+
+
+
+@keyframes spin {
+from {
+  transform: rotate(0deg); /* Góc xoay ban đầu */
+}
+to {
+  transform: rotate(360deg); /* Góc xoay cuối cùng */
+}
+}
