@@ -1,31 +1,36 @@
 import  authService from '../services/authService';
 import { Request, Response } from 'express';
-
+import { email, password } from "../helpers/joi_schema";
+import Joi from 'joi';
+import {badRequest, internalServerError} from '../middlewares/handle_error';
 class AuthController {
   public register = async (req: Request, res: Response) => {
     try {
-      const { email, password } = req.body;
-      console.log( req.body );
-      
-      if (!email || !password) {
-        return res.status(400).json({
-          err: 1,
-          mes: 'Missing payloads',
-        });
-      }
 
-      // Gọi hàm register từ authService và sử dụng destructuring assignment để lấy response
-      const response = await authService.register({ email, password });
-
+      const { error } = Joi.object({email,password}).validate(req.body)
+      if (error) return badRequest(error.details[0].message, res)
+      const response = await authService.register(req.body);
+      console.log('response',response);
+    
       return res.status(200).json(response);
     } catch (error) {
-      console.error(error); // Log lỗi để dễ dàng theo dõi khi có lỗi
-      return res.status(500).json({
-        err: -1,
-        mess: 'Internal server error',
-      });
+      return internalServerError(res)
     }
   };
+
+  public login = async (req: Request, res: Response) => {
+    try {
+      const { error } = Joi.object({email,password}).validate(req.body)
+      if (error) return badRequest(error.details[0].message, res)
+      const response = await authService.login(req.body);
+      return res.status(200).json(response);
+    } catch (error) {
+      // return internalServerError(res)
+      console.log(123);
+    }
+  };
+
+
 }
 
 export default new AuthController();

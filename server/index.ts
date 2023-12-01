@@ -1,8 +1,8 @@
 import express from 'express'
 import cors from 'cors'
 import 'dotenv/config'
-// import userRouter from './src/routers/userRouter'
 import authRouter from './src/routers/authRouter'
+import roleRouter from './src/routers/roleRouter'
 
 const app = express()
 app.use(cors({
@@ -13,6 +13,7 @@ app.use(cors({
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
+app.use('/api/role', roleRouter);
 app.use('/api/auth', authRouter);
 
 const port = process.env.PORT || 8888

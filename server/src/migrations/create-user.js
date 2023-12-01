@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.STRING,
       },
       role_code: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING, defaultValue: 'role_3'
       },
       createdAt: {
         allowNull: false,

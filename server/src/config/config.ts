@@ -1,10 +1,14 @@
-{
+require('dotenv').config();
+
+module.exports = {
   "development": {
     "username": "root",
-    "password": null,
+    "password": "",
     "database": "hr_management",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false,
+    "timezone":"+07:00"
   },
   "test": {
     "username": "root",
