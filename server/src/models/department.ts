@@ -8,19 +8,19 @@ interface RoleAttributes {
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class Role extends Model implements RoleAttributes {
+  class Department extends Model implements RoleAttributes {
 
     code!: string;
     value!: string;
     
     static associate(models: any) {
       // define association here
-      // Role.belongsToMany(models.Project, {
+      // Department.belongsToMany(models.Project, {
       //   through: "ProjectAssignments",
       // });
     }
   }
-  Role.init(
+  Department.init(
     {
       code: {
         type: DataTypes.STRING,
@@ -31,8 +31,8 @@ module.exports = (sequelize: any, DataTypes: any) => {
     },
     {
       sequelize,
-      modelName: "Role",
+      modelName: "Department",
     }
   );
-  return Role;
+  return Department;
 };

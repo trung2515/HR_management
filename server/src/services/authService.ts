@@ -6,7 +6,6 @@ import jwt from 'jsonwebtoken';
 class AuthService {
 
     public register = ({email, password}: any) => new Promise<any>(async (resolve, reject) => {
-        console.log('email2',email);
         try {
             const hashPassword = await bcrypt.hashSync(password, bcrypt.genSaltSync(3));
             const response = await db.User.findOrCreate({
@@ -16,7 +15,7 @@ class AuthService {
                     password: hashPassword,
                     name: 'Default Name',
                     avatar: 'link',
-                    role_code: 'Default Role Code',
+                    role_code: 'role_3',
                 }
             });
             const token = response[1] ? jwt.sign(
@@ -32,24 +31,34 @@ class AuthService {
 
         } catch (error) {
             reject(error);
-            console.log('fail');
         }
     });
+    
     public login = ({email, password}: any) => new Promise<any>(async (resolve, reject) => {
-        console.log('12313123',password);
         try {
             const response = await db.User.findOne({
                 where: {email},
-                raw: true
+                attributes:{
+                    include: ['password', 'role_code']
+                },
+                include: [
+                    {
+                      model: db.Role,
+                      attributes: ['id', 'code', 'value'],
+                      as: 'Role', // Đặt tên alias cho mối quan hệ
+                    },
+                  ],
+                  raw: true,
+                  nest: true,
             });
 
             const isChecked = response && bcrypt.compareSync(password, response.password);
-            const token = isChecked ? jwt.sign({id: response.id, email: response.email, role_code: response.role_code}, process.env.JWT_SECRET!, {expiresIn: '555d'}) : null;
-
+            const token = isChecked ? jwt.sign({id: response.id, email: response.email, role_code: response.role_code}, process.env.JWT_SECRET!, {expiresIn: '365d'}) : null;
             resolve({
                 err: token ? 0 : 1,
                 mes: token ? 'Login successfully' : response ? 'wrong password' : 'Email is not registered',
-                access_token: token ? `Bearer ${token}` : null
+                access_token: token ? `Bearer ${token}` : null,
+                data: response
             });
 
         } catch (error) {

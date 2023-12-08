@@ -1,9 +1,11 @@
-import { Router } from "express";
+import { Router } from 'express';
+import userController from '../controllers/userController';
+import verifyToken from "../middlewares/verify_token";
 
-const userRouter = Router()
+const router = Router();
 
-userRouter.get('/', (req, res)=> {
-    return res.send('user test')
-})
+router.use(verifyToken)
+router.get('/', userController.getCurrentUser);
+// router.post('/login', authController.login);
 
-export default userRouter
+export default router;

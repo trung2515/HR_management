@@ -9,6 +9,7 @@ interface UserAttributes {
   name: string;
   email: string;
   password: string;
+  role_code: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -23,11 +24,11 @@ module.exports = (sequelize: any, DataTypes: any) => {
     name!: string;
     email!: string;
     password!: string;
+    role_code!: string;
     static associate(models: any) {
-      // define association here
-      // User.belongsToMany(models.Project, {
-      //   through: 'ProjectAssignments'
-      // })
+      User.belongsTo(models.Role, {
+        foreignKey: 'role_code', targetKey: 'code'
+      })
     }
   };
   User.init({
@@ -47,6 +48,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
       unique: true
     }, 
     password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    role_code: {
       type: DataTypes.STRING,
       allowNull: false
     }

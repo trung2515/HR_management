@@ -1,6 +1,6 @@
 import  authService from '../services/authService';
 import { Request, Response } from 'express';
-import { email, password } from "../helpers/joi_schema";
+import { email, password } from "../utils/joi_schema";
 import Joi from 'joi';
 import {badRequest, internalServerError} from '../middlewares/handle_error';
 class AuthController {
@@ -25,8 +25,7 @@ class AuthController {
       const response = await authService.login(req.body);
       return res.status(200).json(response);
     } catch (error) {
-      // return internalServerError(res)
-      console.log(123);
+      return internalServerError(res)
     }
   };
 

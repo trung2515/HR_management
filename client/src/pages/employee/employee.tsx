@@ -7,9 +7,31 @@ import EmployeeTable from "./table/EmployeeTable";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import InputField from '../../components/forms/input/InputField';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
+import AxiosInstance from '../../services/axios';
+import apiUrl from '../../constant/apiUrl';
 
 const Employee = () => {
+    const [employeeData, setEmployeeData] = useState([])
+    useEffect(() => {
+      getEmployee()
+    }, [])
+    
+    const getEmployee = async() => {
+        const result = await AxiosInstance.get(apiUrl.employee.index)
+        setEmployeeData(result.data.data)
+        console.log(result.data.data)
+    }
+
+    const countNewEmployee = () => {
+        const now = new Date().getTime()
+        const newEmployee = employeeData.filter((emp: Record<string, any>) => {
+            const timeCreate = new Date(emp.createdAt).getTime()
+            return now - timeCreate < (1000*60*60*24) // lớn hơn 1 ngày
+        })
+        return newEmployee.length
+    }
+
     const initialValues = {
         name: '',
         email: '',
@@ -38,13 +60,13 @@ const Employee = () => {
                                 <Card>
                                     <div className="card-body pointer">
                                         <span className="card-body-name fs-l">Total Employee</span>
-                                        <span className="card-body-content fs-2xl">456</span>
+                                        <span className="card-body-content fs-2xl">{employeeData.length}</span>
                                     </div>
                                 </Card>
                                 <Card>
                                     <div className="card-body pointer">
                                         <span className="card-body-name fs-l">New Employee</span>
-                                        <span className="card-body-content fs-2xl">123</span>
+                                        <span className="card-body-content fs-2xl">{countNewEmployee()}</span>
                                     </div>
                                 </Card>
                                 <Card>
@@ -63,7 +85,7 @@ const Employee = () => {
                         </div>
                         <div className="employee-table">
                             <Card>
-                                <EmployeeTable />
+                                <EmployeeTable data={employeeData}/>
                             </Card>
                         </div>
                     </TabPanel>

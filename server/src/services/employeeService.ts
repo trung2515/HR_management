@@ -1,0 +1,73 @@
+import db from "../models";
+import  Utils  from "../utils/commonUtils";
+class EmployeeService {
+    public generateEmployeeId = async () => {
+        const lastEmployee = await db.Employee.findOne({
+            order: [["employee_id", "DESC"]],
+            attributes: ["employee_id"],
+          });
+          if(lastEmployee) {
+            let newEmployeeId = lastEmployee.dataValues.employee_id.toString().slice(2)
+            return newEmployeeId = 'AD'+(Number(newEmployeeId)+1).toString().padStart(4, "0")
+          }
+            return 'AD0001'
+    } 
+
+    public getAllEmployee = async () => {
+        try {
+            const response = await db.Employee.findAll({
+                where: {
+                    deleted: '0'
+                },
+                attributes:{
+                    exclude: ['position_id']
+                },
+                include: [
+                    {
+                      model: db.Department,
+                      attributes: ['id', 'code', 'value'],
+                      as: 'department'
+                    },
+                    {
+                        model: db.Position,
+                        attributes: ['id', 'code', 'value'],
+                        as: 'position'
+                    }
+                  ],
+                  nest: true,
+                //   raw: true,
+            });
+            return {
+                err: response ? 0 : 1,
+                mes: response ? 'Employee not found' : 'error',
+                data: response
+            };
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    public insertEmployee = async (data: any) => {
+        try {
+            const newEmployeeId = await this.generateEmployeeId();
+            const fullName = Utils.capitalizeFirstLetter(data.full_name);
+            const partsName = fullName.split(' ');
+    
+            data.employee_id = newEmployeeId;
+            data.full_name = fullName;
+            data.first_name = partsName.pop();
+    
+            const response = await db.Employee.create(data);
+    
+            return {
+                err: response ? 0 : 1,
+                mes: response ? 'Register successfully' : 'error',
+                data: response
+            };
+        } catch (error) {
+            throw error;
+        }
+    };
+}
+
+export default new EmployeeService()
