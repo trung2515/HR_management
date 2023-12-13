@@ -21,6 +21,9 @@ module.exports = {
       role_code: {
         type: Sequelize.STRING, defaultValue: 'role_3'
       },
+      deleted: {
+        type: Sequelize.STRING,defaultValue : '0' 
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

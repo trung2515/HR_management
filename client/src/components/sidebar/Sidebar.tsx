@@ -27,7 +27,7 @@ import { faAlgolia } from "@fortawesome/free-brands-svg-icons";
 import { Link, useLocation } from "react-router-dom";
 const menus = [
     { id: 1, name: "Dashboard", path: "/" },
-    { id: 2, name: "Deparment", path: "/test" },
+    { id: 2, name: "Department", path: "/department" },
     { id: 3, name: "Employee", path: "/employee" },
     { id: 4, name: "Activities", path: "/test2" },
     { id: 5, name: "Holidays", path: "/test3" },

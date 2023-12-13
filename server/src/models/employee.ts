@@ -60,7 +60,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
         type: DataTypes.STRING,
       },
       gender:{
-        type: DataTypes.String
+        type: DataTypes.STRING
       },
       dayOfBirth:{
         type: DataTypes.DATE

@@ -21,6 +21,6 @@ const validateInsertEmployee = [
   },
 ];
 
-router.post('/insert', validateInsertEmployee,employeeController.insertEmployee);
+router.post('/', validateInsertEmployee,employeeController.insertEmployee);
 
 export default router;

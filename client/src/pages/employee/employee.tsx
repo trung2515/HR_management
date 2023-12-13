@@ -19,8 +19,11 @@ const Employee = () => {
     
     const getEmployee = async() => {
         const result = await AxiosInstance.get(apiUrl.employee.index)
-        setEmployeeData(result.data.data)
-        console.log(result.data.data)
+        if (result.data){
+            setEmployeeData(result.data.data)
+            console.log(result.data.data)
+        } 
+  
     }
 
     const countNewEmployee = () => {

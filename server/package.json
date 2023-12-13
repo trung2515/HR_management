@@ -6,10 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.ts",
-    "sequelize": "sequelize",
-    "sequelize-cli": "npx sequelize-cli-typescript",
+    "migrate-cli": "npx sequelize-cli db:migrate",
     "migrate": " npx sequelize db:migrate",
-    "seed": "npm run sequelize-cli -- db:seed:all"
+    "seed": "npx sequelize db:seed:all -- --config=./config/config.json"
   },
   "keywords": [],
   "author": "",

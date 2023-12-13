@@ -2,18 +2,25 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkInsert('Positions', [
+    await queryInterface.bulkInsert('Departments', [
       {
-        id:1,
         code: 'PBNS',
         value:'Nhân sự',
+        deleted:'0',
         createdAt: new Date('10-10-2023'),
         createdAt: new Date('10-10-2023')
       },
       {
-        id:2,
         code: 'PBKT',
         value:'Kế toán',
+        deleted:'0',
+        createdAt: new Date('10-10-2023'),
+        createdAt: new Date('10-10-2023')
+      },
+      {
+        code: 'PBKD',
+        value:'Kinh doanh',
+        deleted:'0',
         createdAt: new Date('10-10-2023'),
         createdAt: new Date('10-10-2023')
       }
@@ -21,6 +28,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Positions', null, {});
+    await queryInterface.bulkDelete('Departments', null, {});
   }
 };

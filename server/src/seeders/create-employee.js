@@ -1,24 +1,31 @@
 'use strict';
-let dataMock = []
-for(let i = 5; i <100 ; i++){
-  let number = Math.floor(Math.random() * 10)
-  let random = number % 2
-  let item =  {
-        employee_id:'AD'+ i.toString().padStart(4,'0'),
-        full_name: (random == 0 ? 'Nguyễn Văn Số '  : 'Trần Thị Nữ Số ') + i,
-        first_name:'Số' + i,
-        phone:'0123445556',
-        email:'email@gmail.com',
-        gender: random == 0 ? 'male' :'female',
-        dayOfBirth:new Date('05-05-1990'),
-        department_id	:'PBKD',
-        position_id:'CVMB',
-        deleted:'0',
-        createdAt: new Date('10-10-2023'),
-        createdAt: new Date('10-10-2023')
-      }
-      dataMock.push(item)
+let dataMock = [];
+let firstNames = ['Hồng', 'Hà', 'Khánh', 'Linh', 'Thảo', 'Phương', 'Tâm', 'Quỳnh', 'Dương', 'Tú','Khuê'];
+let lastNames = ['Nguyễn Thanh', 'Trần Thanh', 'Lê Đức', 'Phạm Thị', 'Hoàng Văn', 'Đặng Thị', 'Vũ Văn', 'Bùi Thị', 'Ngô Văn', 'Mai Thị', 'Nguyễn Thị','Lê Ngọc','Đào Ngọc'];
+
+for (let i = 5; i < 20; i++) {
+
+  let firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  let lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+
+  let item = {
+    employee_id: 'AD' + i.toString().padStart(4, '0'),
+    full_name:  lastName+' '+firstName,
+    first_name: firstName,
+    phone: '0123445556',
+    email: firstName + lastName.split(' ')[0] + '@gmail.com',
+    gender: lastName.includes('Thị') || firstName.includes('Ngọc') ? 'female' : 'male',
+    dayOfBirth: new Date('05-05-1990'),
+    department_id: 'PBKD',
+    position_id: 'CVMB',
+    deleted: '0',
+    createdAt: new Date('10-10-2023'),
+    updatedAt: new Date('10-10-2023')
+  };
+
+  dataMock.push(item);
 }
+
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
@@ -35,7 +42,7 @@ module.exports = {
         position_id:'CVLD',
         deleted:'0',
         createdAt: new Date('10-10-2023'),
-        createdAt: new Date('10-10-2023')
+        updatedAt: new Date('10-10-2023')
       },
       {
         employee_id:'AD0002',
@@ -49,7 +56,7 @@ module.exports = {
         position_id:'CVMB',
         deleted:'0',
         createdAt: new Date('10-10-2023'),
-        createdAt: new Date('10-10-2023')
+        updatedAt: new Date('10-10-2023')
       },
       {
         employee_id:'AD0003',
@@ -63,7 +70,7 @@ module.exports = {
         position_id:'CVMB',
         deleted:'0',
         createdAt: new Date('10-10-2023'),
-        createdAt: new Date('10-10-2023')
+        updatedAt: new Date('10-10-2023')
       },
       {
         employee_id:'AD0004',
@@ -77,7 +84,7 @@ module.exports = {
         position_id:'CVMB',
         deleted:'0',
         createdAt: new Date('10-10-2023'),
-        createdAt: new Date('10-10-2023')
+        updatedAt: new Date('10-10-2023')
       },
 
 

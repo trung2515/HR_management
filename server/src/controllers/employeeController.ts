@@ -2,9 +2,9 @@ import EmployeeService from '../services/employeeService';
 import { Request, Response } from 'express';
 
 class EmployeeController {
-  public insertEmployee = async (req: Request, res: Response) => {
+  public getAllEmployee = async (req: Request, res: Response) => {
     try {
-      const response = await EmployeeService.insertEmployee(req.body)
+      const response = await EmployeeService.getAllEmployee()
       return res.status(200).json(response);
     } catch (error) {
       console.error(error); 
@@ -14,9 +14,9 @@ class EmployeeController {
       });
     }
   };
-  public getAllEmployee = async (req: Request, res: Response) => {
+  public insertEmployee = async (req: Request, res: Response) => {
     try {
-      const response = await EmployeeService.getAllEmployee()
+      const response = await EmployeeService.insertEmployee(req.body)
       return res.status(200).json(response);
     } catch (error) {
       console.error(error); 

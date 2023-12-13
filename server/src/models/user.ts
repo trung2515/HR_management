@@ -10,6 +10,7 @@ interface UserAttributes {
   email: string;
   password: string;
   role_code: string;
+  deleted:string
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -25,6 +26,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     email!: string;
     password!: string;
     role_code!: string;
+    deleted!: string;
     static associate(models: any) {
       User.belongsTo(models.Role, {
         foreignKey: 'role_code', targetKey: 'code'
@@ -54,7 +56,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
     role_code: {
       type: DataTypes.STRING,
       allowNull: false
-    }
+    },
+    deleted: {
+      type: DataTypes.STRING,
+    },
   }, {
     sequelize,
     modelName: 'User',

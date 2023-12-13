@@ -3,7 +3,9 @@ const api = 'api'
 const apiUrl = {
     employee : {
         index:`${api}/employee`,
-        insert:`${api}/employee/insert`,
+    },
+    department: {
+        index:`${api}/department`
     }
 }
 
