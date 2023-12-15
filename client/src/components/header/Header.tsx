@@ -1,5 +1,4 @@
 import { faBell, faEnvelope, faUser } from "@fortawesome/free-solid-svg-icons";
-import { Dropdown } from 'primereact/dropdown';
 import InputField from "../forms/input/InputField";
 import "./Header.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

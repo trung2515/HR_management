@@ -1,10 +1,10 @@
-import DepartmentService from '../services/departmentService';
+import PositionService from '../services/positionService';
 import { Request, Response } from 'express';
 
-class DepartmentController {
-  public getDepartment = async (req: Request, res: Response) => {
+class PositionController {
+  public getPosition = async (req: Request, res: Response) => {
     try {
-      const response = await DepartmentService.getAllDepartment()
+      const response = await PositionService.getAllPosition()
       return res.status(200).json(response);
     } catch (error) {
       console.error(error); 
@@ -16,4 +16,4 @@ class DepartmentController {
   };
 }
 
-export default new DepartmentController();
+export default new PositionController();

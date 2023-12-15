@@ -6,6 +6,7 @@ import roleRouter from './src/routers/roleRouter'
 import userRouter from './src/routers/userRouter';
 import employeeRouter from './src/routers/employeeRouter';
 import departmentRouter from './src/routers/departmentRouter';
+import positionRouter from './src/routers/positionRouter';
 
 const app = express()
 app.use(cors())
@@ -18,6 +19,7 @@ app.use('/api/user', userRouter);
 app.use('/api/role', roleRouter);
 app.use('/api/employee', employeeRouter);
 app.use('/api/department', departmentRouter);
+app.use('/api/position', positionRouter);
 
 const port = process.env.PORT || 8888
 app.listen(port, () => {

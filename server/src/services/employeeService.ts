@@ -19,6 +19,7 @@ class EmployeeService {
                 where: {
                     deleted: '0'
                 },
+                order: [["employee_id"]],
                 attributes:{
                     exclude: ['position_id']
                 },

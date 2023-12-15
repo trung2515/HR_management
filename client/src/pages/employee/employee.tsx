@@ -10,8 +10,17 @@ import InputField from '../../components/forms/input/InputField';
 import { ChangeEvent, useEffect, useState } from 'react';
 import AxiosInstance from '../../services/axios';
 import apiUrl from '../../constant/apiUrl';
+import SelectField from '../../components/forms/select/selectField';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../redux/store';
+import axios from '../../services/axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Employee = () => {
+
+    const departments = useSelector((state: RootState) => state.departments.departments);
+    const positions = useSelector((state: RootState) => state.position.positions);
+
     const [employeeData, setEmployeeData] = useState([])
     useEffect(() => {
       getEmployee()
@@ -36,26 +45,35 @@ const Employee = () => {
     }
 
     const initialValues = {
-        name: '',
+        full_name: '',
         email: '',
         dayOfBirth: '',
         phone: '',
-        deparmentId: '',
-        position: '',
+        department_id: '',
+        position_id: '',
     };
     const validationSchema = yup.object().shape({
-        name: yup.string().required(' is a required field'),
-        email: yup.string().email(' Invalid email').required(' is a required field'),
-        deparmentId: yup.string().required(' is a required field'),
+        // full_name: yup.string().required(' is a required field'),
+        // email: yup.string().required(' is a required field'),
     });
-
-    const handleSubmit = (values: any) => {
-        console.log('values', values);
+    const notify = () => toast.success('Here is your toast.');
+    const handleAddemployee = async(values: any) => {
+        try {
+            const response = await axios.post(apiUrl.employee.index,values)
+            if (response)  {
+                console.log(response)
+                getEmployee()
+                toast.success('Successfully created employee')
+            }
+        } catch (error) {
+            toast.error('Created employee error')
+        }
     };
 
     return (
         <>
             < DefaultLayout>
+                <Toaster />
                 <TabView>
                     <TabPanel header="List Employee">
                         <div className="employee-container">
@@ -96,7 +114,7 @@ const Employee = () => {
                         <Formik initialValues={initialValues}
                             validationSchema={validationSchema}
                             onSubmit={(values) => {
-                                handleSubmit(values);
+                                handleAddemployee(values);
                             }}>
 
                             {(formik) => {
@@ -110,11 +128,11 @@ const Employee = () => {
                                                         type="text"
                                                         name="Employee name"
                                                         placeholder='Enter employee name'
-                                                        value={formik.values.name} 
-                                                        errorMessage={errors?.name && touched.name ? errors?.name : ''}
+                                                        value={formik.values.full_name} 
+                                                        errorMessage={errors?.full_name && touched.full_name ? errors?.full_name : ''}
                                                         onChange={
                                                             (event: ChangeEvent<HTMLInputElement>) => {
-                                                                setFieldValue("name", event.target.value);
+                                                                setFieldValue("full_name", event.target.value);
                                                             }
                                                         }
                                                     />
@@ -161,11 +179,11 @@ const Employee = () => {
                                                         }
                                                     />
                                                 </div>
-                                                <div className="form-item">
+                                                {/* <div className="form-item">
                                                     <InputField
                                                         type="number"
                                                         name="Deparment code"
-                                                        placeholder='Enter department code'
+                                                        placeholder='Enter department_id code'
                                                         value={formik.values.deparmentId} 
                                                         errorMessage={errors?.deparmentId && touched.deparmentId ? errors?.deparmentId : ''}
                                                         onChange={
@@ -174,8 +192,8 @@ const Employee = () => {
                                                             }
                                                         }
                                                     />
-                                                </div>
-                                                <div className="form-item">
+                                                </div> */}
+                                                {/* <div className="form-item">
                                                     <InputField
                                                         type="text"
                                                         name="Position"
@@ -188,8 +206,33 @@ const Employee = () => {
                                                             }
                                                         }
                                                     />
+                                                </div> */}
+                                                <div className="form-item">
+                                                    <SelectField
+                                                        name="Department"
+                                                        data={departments}
+                                                        value={formik.values.department_id} 
+                                                        errorMessage={errors?.department_id && touched.department_id ? errors?.department_id : ''}
+                                                        onChange={
+                                                            (event: ChangeEvent<HTMLInputElement>) => {
+                                                                setFieldValue("department_id", event.target.value);
+                                                            }
+                                                        }
+                                                    />
                                                 </div>
-                                              
+                                                <div className="form-item">
+                                                    <SelectField
+                                                        name="Position"
+                                                        data={positions}
+                                                        value={formik.values.position_id} 
+                                                        errorMessage={errors?.position_id && touched.position_id ? errors?.position_id : ''}
+                                                        onChange={
+                                                            (event: ChangeEvent<HTMLInputElement>) => {
+                                                                setFieldValue("position_id", event.target.value);
+                                                            }
+                                                        }
+                                                    />
+                                                </div>
                                             </div>
                                             <div className="form-footer">
                                                   <Button type='submit' label="Submit" />

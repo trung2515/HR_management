@@ -1,29 +1,26 @@
-import './InputField.scss';
+import './selectField.scss';
 // import '../../../assets/css/variables.scss';
-const InputField = ({ ...props }) => {
-    const { placeholder, type, name, className, onChange, errorMessage, value } = props;
+const SelectField = ({ ...props }) => {
+    const { name, onChange, errorMessage, data,value } = props;
+    const option: Record<string,any>[] = data || []
+
     return (
         <>
-            {name && <label className='input-label fs-s'>{name}</label>}
+            {name && <label className='select-label fs-s'>{name}</label>}
             {errorMessage && (
                 <span className="fs-s error-text ml-1">{errorMessage}</span>
             )}
-            <select>
-                <option value="volvo">Volvo</option>
-                <option value="saab">Saab</option>
-                <option value="mercedes">Mercedes</option>
-                <option value="audi">Audi</option>
+            <select onChange={onChange} className='select-field' value={value}>  
+                <option value='' className='option-default'>Choose {name.toLowerCase()}</option>
+               {option.length > 0 && option.map((item,index) => {
+                return (
+                     <option key={index} value={item.code} >{item.value}</option>
+                )
+               })}
             </select>
-                {/* className={`input-field ${className}`}
-                type={type || 'text'}
-                placeholder={placeholder}
-                onChange={onChange}
-                value={value}
-                */}
-
         </>
     );
 };
 
 
-export default InputField;
+export default SelectField;

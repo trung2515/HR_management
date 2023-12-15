@@ -1,5 +1,5 @@
 import './App.scss'
-import { Navigate, BrowserRouter as Router,  useNavigate,  useRoutes} from "react-router-dom";
+import { BrowserRouter as Router,  useNavigate,  useRoutes} from "react-router-dom";
 import DashBoard from  './pages/dashBoard/DashBoard'
 import Employee from "./pages/employee/employee";
 import Department from "./pages/department/department";
@@ -9,9 +9,11 @@ import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {checkToken} from "./redux/features/authSlice";
 import Emty from "./pages/emty/emty";
-import {setDepartments} from './redux/features/departmentSlice';
+import {setDepartment} from './redux/features/departmentSlice';
 import axios from './services/axios';
 import apiUrl from './constant/apiUrl';
+import {setPosition} from './redux/features/positionSlice';
+import {Toaster} from 'react-hot-toast';
 
 
 
@@ -48,27 +50,42 @@ const App = () => {
 
   const dispatch = useDispatch();
 
-  const getDepartments = async() => {
-    try {
-      const response = await axios.get(apiUrl.department.index)
-      const data = await response.data.data;
-      console.log('data department',data, response.data)
-      dispatch(setDepartments(data));
-    } catch (error) {
-      console.log(error)
-    } 
-  } 
-
-  useEffect(() => {
+    useEffect(() => {
     dispatch(checkToken());
-    getDepartments()
+    getDepartment()
+    getPosition()
   }, [dispatch]);
+
+  const getDepartment = async () => {
+    try {
+      const response = await axios.get(apiUrl.department.index);
+      const data = response.data.data;
+      console.log('data department', data, response.data);
+      dispatch(setDepartment(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const getPosition = async () => {
+    try {
+      const response = await axios.get(apiUrl.position.index);
+      const data = response.data.data;
+      console.log('data position', data, response.data);
+      dispatch(setPosition(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+
 
 
 
   return (
     <>
       <Router>
+        <Toaster />
         <AppRoutes/>
       </Router>
     </>

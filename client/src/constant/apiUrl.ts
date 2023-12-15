@@ -6,6 +6,9 @@ const apiUrl = {
     },
     department: {
         index:`${api}/department`
+    },
+    position: {
+        index:`${api}/position`
     }
 }
 

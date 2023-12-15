@@ -1,5 +1,5 @@
 @import '../../../assets/css/variables.scss';
-.input-field{
+.select-field{
     width: 100%;
     height: 100%;
     border: 1px solid $color-grey-200;
@@ -12,12 +12,16 @@
         box-shadow: 0 0 0 0.2rem rgba(90,82,120,.25);
         border-color: #80bdff;
     } 
+    // .option{
+
+    // }
 }
 
-.input-label{
+.select-label{
     color: $color-grey-250;
 }
 
 .error-text{
     color: $color-red-500
 }
+

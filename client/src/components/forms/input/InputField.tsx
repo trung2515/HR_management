@@ -1,5 +1,4 @@
 import './InputField.scss';
-// import '../../../assets/css/variables.scss';
 const InputField = ({ ...props }) => {
     const { placeholder, type, name, className, onChange, errorMessage, value } = props;
     return (
