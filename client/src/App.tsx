@@ -13,9 +13,6 @@ import {setDepartment} from './redux/features/departmentSlice';
 import axios from './services/axios';
 import apiUrl from './constant/apiUrl';
 import {setPosition} from './redux/features/positionSlice';
-import {Toaster} from 'react-hot-toast';
-
-
 
 const AppRoutes = () => {
   const navigate= useNavigate()
@@ -79,13 +76,9 @@ const App = () => {
   };
 
 
-
-
-
   return (
     <>
       <Router>
-        <Toaster />
         <AppRoutes/>
       </Router>
     </>

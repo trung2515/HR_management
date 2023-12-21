@@ -69,6 +69,48 @@ class EmployeeService {
             throw error;
         }
     };
+
+    public updateEmployee = async (employeeId: string, updatedData: any) => {
+        try {
+
+            const response = await db.Employee.update(
+                updatedData, 
+                {
+                    where: {
+                        employee_id: employeeId
+                    }
+                }
+            );
+            
+            return {
+                err: response[0] ? 0 : 1,
+                mes: response[0]  ? 'Update successfully' : 'Employee not found',
+            };
+        } catch (error) {
+            throw error;
+        }
+    };
+
+    public removeEmployee = async (employeeId: string) => {
+        try {
+
+            const response = await db.Employee.update(
+                { deleted: '1' },
+                {
+                    where: {
+                        employee_id: employeeId
+                    }
+                }
+            );
+    
+            return {
+                err: response[0] ? 0 : 1,
+                mes: response[0]  ? 'Delete successfully' : 'error',
+            };
+        } catch (error) {
+            throw error;
+        }
+    };
 }
 
 export default new EmployeeService()

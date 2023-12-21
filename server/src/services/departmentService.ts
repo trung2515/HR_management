@@ -10,7 +10,7 @@ class DepartmentService {
             });
             return {
                 err: response ? 0 : 1,
-                mes: response ? 'Department not found' : 'error',
+                mes: response ? 'Get department successfully' : 'error',
                 data: response
             };
         } catch (error) {

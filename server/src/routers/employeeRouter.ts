@@ -23,4 +23,8 @@ const validateInsertEmployee = [
 
 router.post('/', validateInsertEmployee,employeeController.insertEmployee);
 
+router.put('/:employeeId', employeeController.removeEmployee);
+
+router.patch('/:employeeId', employeeController.updateEmployee);
+
 export default router;

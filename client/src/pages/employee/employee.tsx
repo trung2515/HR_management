@@ -7,21 +7,23 @@ import EmployeeTable from "./table/EmployeeTable";
 import { Formik, Form } from "formik";
 import * as yup from "yup";
 import InputField from '../../components/forms/input/InputField';
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import AxiosInstance from '../../services/axios';
 import apiUrl from '../../constant/apiUrl';
 import SelectField from '../../components/forms/select/selectField';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../redux/store';
 import axios from '../../services/axios';
-import toast, { Toaster } from 'react-hot-toast';
+import {Toast} from 'primereact/toast';
 
 const Employee = () => {
 
     const departments = useSelector((state: RootState) => state.departments.departments);
     const positions = useSelector((state: RootState) => state.position.positions);
-
     const [employeeData, setEmployeeData] = useState([])
+    const [infoDataEmployee, setInfoDataEmployee] =useState<Record<string,any>>({})
+    const toast = useRef<Toast | null>(null);
+
     useEffect(() => {
       getEmployee()
     }, [])
@@ -31,17 +33,25 @@ const Employee = () => {
         if (result.data){
             setEmployeeData(result.data.data)
             console.log(result.data.data)
+            statisticalEmployee(result.data.data)
         } 
   
     }
 
-    const countNewEmployee = () => {
+    const statisticalEmployee = (data:Record<string,any>[]) => {
+
         const now = new Date().getTime()
-        const newEmployee = employeeData.filter((emp: Record<string, any>) => {
+        const newEmployee = data.filter((emp: Record<string, any>) => {
             const timeCreate = new Date(emp.createdAt).getTime()
-            return now - timeCreate < (1000*60*60*24) // lớn hơn 1 ngày
+            return now - timeCreate < (1000*60*60*24) 
         })
-        return newEmployee.length
+        const male =  data.filter((emp: Record<string, any>) => emp.gender === 'male')
+        const statistical = {
+            newEmployee: newEmployee.length,
+            male: male.length,
+            female: data.length - male.length
+        }
+        setInfoDataEmployee(statistical)
     }
 
     const initialValues = {
@@ -52,28 +62,33 @@ const Employee = () => {
         department_id: '',
         position_id: '',
     };
+
     const validationSchema = yup.object().shape({
-        // full_name: yup.string().required(' is a required field'),
-        // email: yup.string().required(' is a required field'),
+        full_name: yup.string().required(' is a required field'),
+        email: yup.string().email('invalid email').required(' is a required field'),
     });
-    const notify = () => toast.success('Here is your toast.');
+
     const handleAddemployee = async(values: any) => {
         try {
             const response = await axios.post(apiUrl.employee.index,values)
             if (response)  {
                 console.log(response)
                 getEmployee()
-                toast.success('Successfully created employee')
+                if (toast.current) {
+                    toast.current.show({severity: 'success', summary: 'Confirmed', detail: 'Create successfully', life: 1500});
+                  }
             }
         } catch (error) {
-            toast.error('Created employee error')
+            if (toast.current) {
+                toast.current.show({severity: 'error', summary: 'Confirmed', detail: 'Create error', life: 1500});
+              }
         }
     };
 
     return (
         <>
             < DefaultLayout>
-                <Toaster />
+            <Toast ref={toast} />
                 <TabView>
                     <TabPanel header="List Employee">
                         <div className="employee-container">
@@ -87,26 +102,26 @@ const Employee = () => {
                                 <Card>
                                     <div className="card-body pointer">
                                         <span className="card-body-name fs-l">New Employee</span>
-                                        <span className="card-body-content fs-2xl">{countNewEmployee()}</span>
+                                        <span className="card-body-content fs-2xl">{infoDataEmployee.newEmployee}</span>
                                     </div>
                                 </Card>
                                 <Card>
                                     <div className="card-body pointer">
                                         <span className="card-body-name fs-l">Male</span>
-                                        <span className="card-body-content fs-2xl">255</span>
+                                        <span className="card-body-content fs-2xl">{infoDataEmployee.male}</span>
                                     </div>
                                 </Card>
                                 <Card>
                                     <div className="card-body pointer">
                                         <span className="card-body-name fs-l">Female</span>
-                                        <span className="card-body-content fs-2xl">155</span>
+                                        <span className="card-body-content fs-2xl">{infoDataEmployee.female}</span>
                                     </div>
                                 </Card>
                             </div>
                         </div>
                         <div className="employee-table">
                             <Card>
-                                <EmployeeTable data={employeeData}/>
+                                <EmployeeTable data={employeeData} onDelete={getEmployee}/>
                             </Card>
                         </div>
                     </TabPanel>
@@ -179,34 +194,6 @@ const Employee = () => {
                                                         }
                                                     />
                                                 </div>
-                                                {/* <div className="form-item">
-                                                    <InputField
-                                                        type="number"
-                                                        name="Deparment code"
-                                                        placeholder='Enter department_id code'
-                                                        value={formik.values.deparmentId} 
-                                                        errorMessage={errors?.deparmentId && touched.deparmentId ? errors?.deparmentId : ''}
-                                                        onChange={
-                                                            (event: ChangeEvent<HTMLInputElement>) => {
-                                                                setFieldValue("deparmentId", event.target.value);
-                                                            }
-                                                        }
-                                                    />
-                                                </div> */}
-                                                {/* <div className="form-item">
-                                                    <InputField
-                                                        type="text"
-                                                        name="Position"
-                                                        placeholder='Enter position'
-                                                        value={formik.values.position} 
-                                                        errorMessage={errors?.position && touched.position ? errors?.position : ''}
-                                                        onChange={
-                                                            (event: ChangeEvent<HTMLInputElement>) => {
-                                                                setFieldValue("position", event.target.value);
-                                                            }
-                                                        }
-                                                    />
-                                                </div> */}
                                                 <div className="form-item">
                                                     <SelectField
                                                         name="Department"

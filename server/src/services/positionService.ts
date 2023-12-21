@@ -10,7 +10,7 @@ class PositionService {
             });
             return {
                 err: response ? 0 : 1,
-                mes: response ? 'Position not found' : 'error',
+                mes: response ? 'Get position successfully' : 'error',
                 data: response
             };
         } catch (error) {

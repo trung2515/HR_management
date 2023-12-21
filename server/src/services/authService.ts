@@ -45,7 +45,7 @@ class AuthService {
                     {
                       model: db.Role,
                       attributes: ['id', 'code', 'value'],
-                      as: 'Role', // Đặt tên alias cho mối quan hệ
+                      as: 'Role', 
                     },
                   ],
                   raw: true,

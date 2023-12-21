@@ -8,7 +8,7 @@
     "start": "nodemon index.ts",
     "migrate-cli": "npx sequelize-cli db:migrate",
     "migrate": " npx sequelize db:migrate",
-    "seed": "npx sequelize db:seed:all -- --config=./config/config.json"
+    "seed": "npx sequelize db:seed:all  --config=./config/config.json"
   },
   "keywords": [],
   "author": "",

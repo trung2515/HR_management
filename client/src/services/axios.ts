@@ -1,5 +1,4 @@
 import axios, {AxiosError} from "axios";
-import toast from "react-hot-toast";
 
 const AxiosInstance = axios.create({
   baseURL: 'http://localhost:3000/',
@@ -19,12 +18,10 @@ if (token) {
 
 const handleBadRequest = (error:AxiosError) => {
   console.log(error);
-  toast.error('Bad request')
 };
 
 const handleServerError = (error:AxiosError) => {
   console.log(error);
-  toast.error('Request error')
 };
 
 AxiosInstance.interceptors.response.use(
